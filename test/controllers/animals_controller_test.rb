@@ -45,4 +45,9 @@ class AnimalsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to animals_url
   end
+
+  test "should get adopted" do
+    get getAdopted_animal_url(@animal)
+    assert_response :success
+  end
 end
