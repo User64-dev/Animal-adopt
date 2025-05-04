@@ -10,6 +10,12 @@ class AnimalsController < ApplicationController
   def show
   end
 
+  def getAdopted
+    if @user.date = nil
+      
+    end
+  end
+
   # GET /animals/new
   def new
     @animal = Animal.new
