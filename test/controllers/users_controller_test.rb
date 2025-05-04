@@ -45,4 +45,25 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to users_url
   end
+
+  test "should not create user with invalid data" do
+    assert_no_difference("User.count") do
+      post users_url, params: { user: { age: nil, name: "", password: "" } }
+    end
+
+    assert_response :unprocessable_entity
+  end
+
+  test "should not update user with invalid data" do
+    patch user_url(@user), params: { user: { age: nil, name: "", password: "" } }
+    assert_response :unprocessable_entity
+  end
+
+  test "should not destroy non-existent user" do
+    assert_no_difference("User.count") do
+      delete user_url(id: -1)
+    end
+
+    assert_redirected_to users_url
+  end
 end
