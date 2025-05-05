@@ -1,8 +1,7 @@
-<%= form_with(model: user) do |form| %>
+<%= form_with(model: user, local: true, class: "form-horizontal") do |form| %>
   <% if user.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
-
+    <div class="alert alert-danger">
+      <h4><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h4>
       <ul>
         <% user.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -11,22 +10,30 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+  <div class="form-group">
+    <%= form.label :name, class: "control-label col-sm-2" %>
+    <div class="col-sm-10">
+      <%= form.text_field :name, class: "form-control" %>
+    </div>
   </div>
 
-  <div>
-    <%= form.label :age, style: "display: block" %>
-    <%= form.number_field :age %>
+  <div class="form-group">
+    <%= form.label :age, class: "control-label col-sm-2" %>
+    <div class="col-sm-10">
+      <%= form.number_field :age, class: "form-control" %>
+    </div>
   </div>
 
-  <div>
-    <%= form.label :password, style: "display: block" %>
-    <%= form.text_field :password %>
+  <div class="form-group">
+    <%= form.label :password, class: "control-label col-sm-2" %>
+    <div class="col-sm-10">
+      <%= form.password_field :password, class: "form-control" %>
+    </div>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <%= form.submit class: "btn btn-primary" %>
+    </div>
   </div>
 <% end %>
