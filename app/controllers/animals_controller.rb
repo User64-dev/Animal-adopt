@@ -10,10 +10,10 @@ class AnimalsController < ApplicationController
   def show
   end
 
-  def getAdopted
-    if @user.date = nil
-      
-    end
+  # Show animals that are available for adoption (not yet adopted)
+  def available_for_adoption
+    @animals = Animal.where(user_id: nil)
+    render :index
   end
 
   # GET /animals/new
@@ -66,11 +66,11 @@ class AnimalsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_animal
-      @animal = Animal.find(params.expect(:id))
+      @animal = Animal.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def animal_params
-      params.expect(animal: [ :name, :type, :age, :race ])
+      params.require(:animal).permit(:name, :animal_type, :age, :race, :user_id)
     end
 end

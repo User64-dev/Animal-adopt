@@ -1,9 +1,4 @@
-/* 
- * This is the main application stylesheet that includes all styles
- */
-
 /* Basic styles for the Animal Adopt application */
-@import url("custom.css");
 
 body {
   font-family: Arial, sans-serif;

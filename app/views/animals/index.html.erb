@@ -4,12 +4,14 @@
 
 <h1>Animals</h1>
 
-<div id="animals">
+<div id="animals" class="animals-container">
   <% @animals.each do |animal| %>
-    <%= render animal %>
-    <p>
-      <%= link_to "Show this animal", animal %>
-    </p>
+    <div class="animal-card">
+      <%= render animal %>
+      <p>
+        <%= link_to "Show this animal", animal %>
+      </p>
+    </div>
   <% end %>
 </div>
 

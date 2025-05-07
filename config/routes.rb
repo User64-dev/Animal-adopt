@@ -2,10 +2,18 @@ Rails.application.routes.draw do
   resources :users
   resources :animals do
     member do
-      post 'adopt/:user_id', to: 'adoption#adopt_animal', as: :adopt
-      delete 'remove_adoption/:user_id', to: 'adoption#remove_adoption', as: :remove_adoption
+      post 'adopt', to: 'adoption#adopt_animal', as: :adopt
+      delete 'remove_adoption', to: 'adoption#remove_adoption', as: :remove_adoption
+    end
+    collection do
+      get 'available', to: 'animals#available_for_adoption', as: :available
     end
   end
+  
+  get 'login', to: 'sessions#new'
+  post 'login', to: 'sessions#create'
+  delete 'logout', to: 'sessions#destroy'
+  
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -17,5 +25,5 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  root "animals#index"
 end
