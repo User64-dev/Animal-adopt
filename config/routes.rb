@@ -1,29 +1,37 @@
 Rails.application.routes.draw do
   resources :users
+  
+  # Animal routes
   resources :animals do
-    member do
-      post 'adopt', to: 'adoption#adopt_animal', as: :adopt
-      delete 'remove_adoption', to: 'adoption#remove_adoption', as: :remove_adoption
-    end
+    # Nested adoption routes - only for creating new adoptions
+    resources :adoptions, controller: 'adoption', only: [:new, :create]
+    
     collection do
       get 'available', to: 'animals#available_for_adoption', as: :available
     end
   end
   
+  # Standalone adoption routes - for viewing and managing adoptions
+  resources :adoptions, controller: 'adoption', only: [:index, :show, :destroy]
+  
+  # Session management
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'
   delete 'logout', to: 'sessions#destroy'
   
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  # Admin routes for managing adoptions
+  namespace :admin do
+    resources :adoptions, only: [:index, :show, :update] do
+      member do
+        patch :approve
+        patch :reject
+      end
+    end
+  end
+  
+  # Health check
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
-
-  # Defines the root path route ("/")
+  # Root route
   root "animals#index"
 end
