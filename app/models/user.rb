@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   has_secure_password
   has_many :animals
-  validates :name, presence: true, uniqueness: true
-  validates :age, presence: true, numericality: { greater_than_or_equal_to: 18, only_integer: true }
+  validates :username, presence: true, uniqueness: true
+  validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :password, presence: true, length: { minimum: 6 }, on: :create
 end
