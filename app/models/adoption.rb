@@ -11,6 +11,10 @@ class Adoption < ApplicationRecord
     rejected: 4
   }, default: :pending
   
+  # Callbacks to update animal status
+  after_save :update_animal_status_after_save
+  after_destroy :update_animal_status_after_destroy
+
   # Validations
   validates :animal, presence: true
   validates :user, presence: true
@@ -26,6 +30,18 @@ class Adoption < ApplicationRecord
     message: "You already have a pending application for this animal", 
     conditions: -> { where.not(status: [:completed, :rejected]) } 
   }
+
+  private
+
+  def update_animal_status_after_save
+    animal.update_status_based_on_adoptions!
+  end
+
+  def update_animal_status_after_destroy
+    # Ensure animal is not nil, though it should always be present
+    # for an existing adoption record being destroyed.
+    animal&.update_status_based_on_adoptions!
+  end
 end
 # This model represents the adoption of an animal by a user.
 # It establishes a many-to-many relationship between animals and users.

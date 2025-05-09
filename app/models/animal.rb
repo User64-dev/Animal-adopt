@@ -27,4 +27,16 @@ class Animal < ApplicationRecord
   def adopted_by?(user)
     adoptions.exists?(user: user)
   end
+
+  # Updates the animal\'s status based on its current adoptions.
+  # This should be called whenever an adoption related to this animal changes.
+  def update_status_based_on_adoptions!
+    if adoptions.completed.exists?
+      update!(status: :adopted) unless status_adopted?
+    elsif adoptions.where(status: [:pending, :reviewing, :approved]).exists?
+      update!(status: :pending) unless status_pending?
+    else
+      update!(status: :available) unless status_available?
+    end
+  end
 end
