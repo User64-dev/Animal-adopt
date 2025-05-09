@@ -2,9 +2,20 @@
 
 <%= render @animal %>
 
+<div class="adoption-status-detail">
+  <h3>Adoption Status</h3>
+  <% if @animal.status_available? %>
+    <div class="status-label status-available" style="display: inline-block; margin-bottom: 15px;">Available for Adoption</div>
+  <% elsif @animal.status_pending? %>
+    <div class="status-label status-pending" style="display: inline-block; margin-bottom: 15px;">Adoption in Progress</div>
+  <% elsif @animal.status_adopted? %>
+    <div class="status-label status-adopted" style="display: inline-block; margin-bottom: 15px;">Already Adopted</div>
+  <% end %>
+</div>
+
 <div>
   <% if logged_in? %>
-    <% if @animal.available? %>
+    <% if @animal.status_available? %>
       <%= button_to "Adopt this animal", adopt_animal_path(@animal), method: :post, class: "adopt-button" %>
     <% elsif @animal.adoptions.exists?(user: current_user) %>
       <p><strong>Status:</strong> <span class="adopted">You have applied to adopt this animal</span></p>

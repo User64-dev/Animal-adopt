@@ -5,6 +5,12 @@ class AnimalsController < ApplicationController
   # GET /animals or /animals.json
   def index
     @animals = Animal.all
+    # Make sure all animals have the correct status
+    @animals.each do |animal|
+      if animal.adoptions.any? && animal.status_available?
+        animal.update(status: :pending)
+      end
+    end
   end
 
   # GET /animals/1 or /animals/1.json
@@ -13,7 +19,7 @@ class AnimalsController < ApplicationController
 
   # Show animals that are available for adoption (not yet adopted)
   def available_for_adoption
-    @animals = Animal.available
+    @animals = Animal.status_available
     render :index
   end
 

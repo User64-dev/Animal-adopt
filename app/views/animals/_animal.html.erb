@@ -1,4 +1,13 @@
-<div id="<%= dom_id animal %>">
+<div id="<%= dom_id animal %>" class="animal-listing">
+  <div class="status-tag-container">
+    <% if animal.status_available? %>
+      <span class="status-label status-available">Available</span>
+    <% elsif animal.status_pending? %>
+      <span class="status-label status-pending">Pending Adoption</span>
+    <% elsif animal.status_adopted? %>
+      <span class="status-label status-adopted">Adopted</span>
+    <% end %>
+  </div>
   <p>
     <strong>Name:</strong>
     <%= animal.name %>

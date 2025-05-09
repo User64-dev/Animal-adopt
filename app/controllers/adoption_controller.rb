@@ -14,7 +14,6 @@
 # - authenticate_user!: Ensures user is logged in
 # - set_animal: Loads the animal for new/create/destroy actions
 # - set_adoption: Loads the adoption for show/destroy actions
-#
 # @example Creating a new adoption
 #   POST /animals/:animal_id/adoptions
 #   params: {
@@ -114,16 +113,20 @@ class AdoptionController < ApplicationController
   # Quick adopt method for one-click adoptions from animal show page
   def quick_adopt
     # Check if animal is available
-    if @animal.available?
+    if @animal.status_available?
       @adoption = Adoption.new(
         animal: @animal,
         user: current_user,
-        reason: "Quick adoption"
+        reason: "Quick adoption",
+        home_type: "Not specified",
+        has_yard: false,
+        has_other_pets: false
       )
       
       if @adoption.save
-        # Update animal status to pending or adopted based on your business logic
-        @animal.update(status: :pending)
+        # Update animal status to pending
+        @animal.update!(status: :pending)
+        Rails.logger.info "Updated animal status to: #{@animal.status}"
         flash[:notice] = "You have applied to adopt this animal!"
       else
         flash[:alert] = "Failed to adopt animal: #{@adoption.errors.full_messages.join(', ')}"
@@ -141,7 +144,8 @@ class AdoptionController < ApplicationController
     
     if adoption
       if adoption.destroy
-        @animal.update(status: :available)
+        @animal.update!(status: :available)
+        Rails.logger.info "Reset animal status to: #{@animal.status}"
         flash[:notice] = "Adoption cancelled successfully."
       else
         flash[:alert] = "Failed to cancel adoption."
