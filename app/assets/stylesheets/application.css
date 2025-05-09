@@ -4,6 +4,8 @@
 
 /* Basic styles for the Animal Adopt application */
 @import url("custom.css");
+@import url("animal_details.css");
+@import url("animal_card.css");
 
 body {
   font-family: Arial, sans-serif;

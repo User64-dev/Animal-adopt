@@ -1,31 +1,41 @@
-<div id="<%= dom_id animal %>" class="animal-listing">
-  <div class="status-tag-container">
-    <% if animal.status_available? %>
-      <span class="status-label status-available">Available</span>
-    <% elsif animal.status_pending? %>
-      <span class="status-label status-pending">Pending Adoption</span>
-    <% elsif animal.status_adopted? %>
-      <span class="status-label status-adopted">Adopted</span>
-    <% end %>
+<div id="<%= dom_id animal %>" class="animal-card">
+  <div class="animal-header">
+    <h2 class="animal-name"><%= animal.name %></h2>
+    
+    <div class="status-tag">
+      <% if animal.status_available? %>
+        <span class="status-label status-available"><i class="fas fa-paw"></i> Available</span>
+      <% elsif animal.status_pending? %>
+        <span class="status-label status-pending"><i class="fas fa-clock"></i> Pending</span>
+      <% elsif animal.status_adopted? %>
+        <span class="status-label status-adopted"><i class="fas fa-home"></i> Adopted</span>
+      <% end %>
+    </div>
   </div>
-  <p>
-    <strong>Name:</strong>
-    <%= animal.name %>
-  </p>
-
-  <p>
-    <strong>Type:</strong>
-    <%= animal.animal_type %>
-  </p>
-
-  <p>
-    <strong>Age:</strong>
-    <%= animal.age %>
-  </p>
-
-  <p>
-    <strong>Race:</strong>
-    <%= animal.race %>
-  </p>
-
+  
+  <div class="animal-details">
+    <div class="detail-item">
+      <i class="fas fa-paw"></i>
+      <div>
+        <span class="detail-label">Type</span>
+        <span class="detail-value"><%= animal.animal_type %></span>
+      </div>
+    </div>
+    
+    <div class="detail-item">
+      <i class="fas fa-birthday-cake"></i>
+      <div>
+        <span class="detail-label">Age</span>
+        <span class="detail-value"><%= animal.age %> years</span>
+      </div>
+    </div>
+    
+    <div class="detail-item">
+      <i class="fas fa-dog"></i>
+      <div>
+        <span class="detail-label">Breed</span>
+        <span class="detail-value"><%= animal.race %></span>
+      </div>
+    </div>
+  </div>
 </div>

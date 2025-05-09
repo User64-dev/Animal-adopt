@@ -1,0 +1,282 @@
+/* Animal Details Page Styling */
+
+.animal-profile-container {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Alert styling */
+.alert {
+  padding: 12px 20px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+}
+
+/* Adoption status badges */
+.adoption-status-section {
+  margin: 30px 0;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  border-left: 4px solid #4CAF50;
+}
+
+.adoption-status-section h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #333;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.adoption-status-section h3:before {
+  content: "\f1b0";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  margin-right: 10px;
+  color: #4CAF50;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.status-badge i {
+  font-size: 1.1rem;
+}
+
+.status-available {
+  background-color: #28a745;
+  color: white;
+  border-left: 5px solid #1e7e34;
+}
+
+.status-available:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 8px rgba(40, 167, 69, 0.3);
+}
+
+.status-pending {
+  background-color: #ffc107;
+  color: #212529;
+  border-left: 5px solid #d39e00;
+}
+
+.status-pending:hover {
+  background-color: #e0a800;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 8px rgba(255, 193, 7, 0.3);
+}
+
+.status-adopted {
+  background-color: #17a2b8;
+  color: white;
+  border-left: 5px solid #117a8b;
+}
+
+.status-adopted:hover {
+  background-color: #138496;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 8px rgba(23, 162, 184, 0.3);
+}
+
+/* Adoption action buttons */
+.adoption-actions {
+  margin: 25px 0;
+}
+
+.btn-adopt {
+  display: inline-block;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  box-shadow: 0 4px 6px rgba(231, 76, 60, 0.25);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.btn-adopt:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: 0.5s;
+  z-index: -1;
+}
+
+.btn-adopt:hover {
+  background-color: #c0392b;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(231, 76, 60, 0.4);
+}
+
+.btn-adopt:hover:before {
+  left: 100%;
+}
+
+.pulse-btn {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 4px 6px rgba(231, 76, 60, 0.25);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(231, 76, 60, 0.4);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 4px 6px rgba(231, 76, 60, 0.25);
+  }
+}
+
+.adoption-note {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #666;
+  padding-left: 5px;
+}
+
+.btn-cancel-adoption {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 20px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-cancel-adoption:hover {
+  background-color: #5a6268;
+}
+
+.btn-login {
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  transition: background-color 0.3s;
+}
+
+.btn-login:hover {
+  background-color: #0069d9;
+  text-decoration: none;
+  color: white;
+}
+
+/* Adoption status info */
+.adoption-status-info {
+  background-color: #e8f4fc;
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 4px solid #007bff;
+  margin-bottom: 20px;
+}
+
+.adoption-status-info.not-available {
+  background-color: #f8f9fa;
+  border-left: 4px solid #6c757d;
+  color: #6c757d;
+}
+
+.adoption-status-info p {
+  margin: 0 0 15px 0;
+  font-weight: 500;
+}
+
+/* Admin controls */
+.admin-controls {
+  margin: 20px 0;
+  padding: 15px;
+  border-top: 1px solid #e9ecef;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.btn-admin {
+  display: inline-block;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 15px;
+  margin-right: 10px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.btn-admin:hover {
+  background-color: #5a6268;
+  color: white;
+  text-decoration: none;
+}
+
+.btn-admin.btn-danger {
+  background-color: #dc3545;
+}
+
+.btn-admin.btn-danger:hover {
+  background-color: #c82333;
+}
+
+/* Back link */
+.back-link {
+  display: inline-block;
+  color: #6c757d;
+  text-decoration: none;
+  margin-top: 20px;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.back-link:hover {
+  color: #343a40;
+  text-decoration: none;
+}
+
+/* Font Awesome placeholder styles (if Font Awesome isn't already included) */
+.fa {
+  display: inline-block;
+  margin-right: 5px;
+}
