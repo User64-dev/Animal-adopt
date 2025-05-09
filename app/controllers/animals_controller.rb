@@ -13,7 +13,7 @@ class AnimalsController < ApplicationController
 
   # Show animals that are available for adoption (not yet adopted)
   def available_for_adoption
-    @animals = Animal.where(user_id: nil)
+    @animals = Animal.available
     render :index
   end
 

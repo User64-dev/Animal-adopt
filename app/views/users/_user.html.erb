@@ -1,7 +1,7 @@
 <div id="<%= dom_id user %>">
   <p>
     <strong>Name:</strong>
-    <%= user.name %>
+    <%= user.username%>
   </p>
 
   <p>
@@ -15,3 +15,9 @@
   </p>
 
 </div>
+<% if user.admin? %>
+  <p style="color: red">
+    <strong>Admin:</strong>
+    <%= user.admin %>
+  </p>
+<% end %>

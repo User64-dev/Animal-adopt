@@ -10,16 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_07_175500) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_09_124010) do
+  create_table "adoptions", force: :cascade do |t|
+    t.integer "animal_id", null: false
+    t.integer "user_id", null: false
+    t.integer "status", default: 0
+    t.text "reason"
+    t.string "home_type"
+    t.boolean "has_yard", default: false
+    t.boolean "has_other_pets", default: false
+    t.text "other_pets_description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["animal_id"], name: "index_adoptions_on_animal_id"
+    t.index ["user_id"], name: "index_adoptions_on_user_id"
+  end
+
   create_table "animals", force: :cascade do |t|
     t.string "name"
-    t.string "type"
+    t.string "animal_type"
     t.integer "age"
     t.string "race"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
-    t.index ["user_id"], name: "index_animals_on_user_id"
+    t.integer "status", default: 0
   end
 
   create_table "users", force: :cascade do |t|
@@ -31,5 +45,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_175500) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "animals", "users"
+  add_foreign_key "adoptions", "animals"
+  add_foreign_key "adoptions", "users"
 end
