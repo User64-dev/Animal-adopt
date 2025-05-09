@@ -6,6 +6,12 @@ Rails.application.routes.draw do
     # Nested adoption routes - only for creating new adoptions
     resources :adoptions, controller: 'adoption', only: [:new, :create]
     
+    # Direct adoption actions
+    member do
+      post :adopt, to: 'adoption#quick_adopt'
+      delete :remove_adoption, to: 'adoption#quick_remove'
+    end
+    
     collection do
       get 'available', to: 'animals#available_for_adoption', as: :available
     end

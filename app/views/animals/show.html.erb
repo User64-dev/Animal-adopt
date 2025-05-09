@@ -4,13 +4,13 @@
 
 <div>
   <% if logged_in? %>
-    <% if @animal.user.nil? %>
+    <% if @animal.available? %>
       <%= button_to "Adopt this animal", adopt_animal_path(@animal), method: :post, class: "adopt-button" %>
-    <% elsif @animal.user == current_user %>
-      <p><strong>Status:</strong> <span class="adopted">You have adopted this animal</span></p>
+    <% elsif @animal.adoptions.exists?(user: current_user) %>
+      <p><strong>Status:</strong> <span class="adopted">You have applied to adopt this animal</span></p>
       <%= button_to "Cancel adoption", remove_adoption_animal_path(@animal), method: :delete, class: "cancel-adopt-button", data: { confirm: "Are you sure you want to cancel this adoption?" } %>
     <% else %>
-      <p><strong>Status:</strong> <span class="adopted">This animal has already been adopted</span></p>
+      <p><strong>Status:</strong> <span class="adopted">This animal is not available for adoption</span></p>
     <% end %>
   <% else %>
     <p><%= link_to "Login to adopt this animal", login_path %></p>

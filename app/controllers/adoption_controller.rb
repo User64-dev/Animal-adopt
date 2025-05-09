@@ -31,7 +31,7 @@
 # @see Adoption
 class AdoptionController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_animal, only: [:new, :create, :destroy]
+  before_action :set_animal, only: [:new, :create, :destroy, :quick_adopt, :quick_remove]
   before_action :set_adoption, only: [:show, :destroy]
 
   def index
@@ -109,5 +109,47 @@ class AdoptionController < ApplicationController
     params.require(:adoption).permit(
       :reason, :home_type, :has_yard, :has_other_pets, :other_pets_description
     )
+  end
+  
+  # Quick adopt method for one-click adoptions from animal show page
+  def quick_adopt
+    # Check if animal is available
+    if @animal.available?
+      @adoption = Adoption.new(
+        animal: @animal,
+        user: current_user,
+        reason: "Quick adoption"
+      )
+      
+      if @adoption.save
+        # Update animal status to pending or adopted based on your business logic
+        @animal.update(status: :pending)
+        flash[:notice] = "You have applied to adopt this animal!"
+      else
+        flash[:alert] = "Failed to adopt animal: #{@adoption.errors.full_messages.join(', ')}"
+      end
+    else
+      flash[:alert] = "This animal is not available for adoption."
+    end
+    
+    redirect_to animal_path(@animal)
+  end
+  
+  # Quick remove method for cancelling adoptions from animal show page
+  def quick_remove
+    adoption = current_user.adoptions.find_by(animal_id: @animal.id)
+    
+    if adoption
+      if adoption.destroy
+        @animal.update(status: :available)
+        flash[:notice] = "Adoption cancelled successfully."
+      else
+        flash[:alert] = "Failed to cancel adoption."
+      end
+    else
+      flash[:alert] = "No adoption found for this animal."
+    end
+    
+    redirect_to animal_path(@animal)
   end
 end
