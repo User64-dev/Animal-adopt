@@ -12,11 +12,16 @@ class RecreateUsersTable < ActiveRecord::Migration[8.0]
       end
       
       # Copy data if the original table has the required columns
+      # Original users table has columns: id, name, age, password_digest, admin, created_at, updated_at
+      # users_backup table expects: id, username, email, password_digest, admin, created_at, updated_at
       begin
-        execute("INSERT INTO users_backup (id, username, email, password_digest, admin, created_at, updated_at) 
-                 SELECT id, username, email, password_digest, admin, created_at, updated_at FROM users")
-      rescue => e
-        puts "Error copying user data: #{e.message}"
+        execute("INSERT INTO users_backup (id, username, email, password_digest, admin, created_at, updated_at) " \
+                "SELECT id, name, NULL, password_digest, admin, created_at, updated_at FROM users")
+      rescue ActiveRecord::StatementInvalid => e
+        # It's possible the users table was already empty or didn't match the expected old schema.
+        # Log the error but proceed, as the goal is to establish the new schema.
+        puts "Notice: Error copying user data during RecreateUsersTable: #{e.message}. " \
+             "This might be okay if the users table was already empty or in a different state."
       end
       
       # Drop and recreate the users table
@@ -28,17 +33,25 @@ class RecreateUsersTable < ActiveRecord::Migration[8.0]
         t.boolean :admin, default: false
         t.timestamps
       end
-      
-      # Copy data back
+
+      # Copy data from backup to the new users table
       begin
-        execute("INSERT INTO users (id, username, email, password_digest, admin, created_at, updated_at) 
-                 SELECT id, username, email, password_digest, admin, created_at, updated_at FROM users_backup")
-      rescue => e
-        puts "Error restoring user data: #{e.message}"
+        execute("INSERT INTO users (id, username, email, password_digest, admin, created_at, updated_at) " \
+                "SELECT id, username, email, password_digest, admin, created_at, updated_at FROM users_backup")
+      rescue ActiveRecord::StatementInvalid => e
+        puts "Notice: Error restoring user data from backup during RecreateUsersTable: #{e.message}."
       end
       
-      # Drop the backup table
       drop_table :users_backup
+    else
+      # If users table doesn't exist at all, create it with the new schema
+      create_table :users do |t|
+        t.string :username
+        t.string :email
+        t.string :password_digest
+        t.boolean :admin, default: false
+        t.timestamps
+      end
     end
   end
 end

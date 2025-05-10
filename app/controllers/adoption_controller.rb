@@ -120,19 +120,19 @@ class AdoptionController < ApplicationController
         reason: "Quick adoption",
         home_type: "Not specified",
         has_yard: false,
-        has_other_pets: false
+        has_other_pets: false,
+        status: :completed # Set adoption status to completed
       )
       
-      if @adoption.save
-        # Update animal status to pending
-        @animal.update!(status: :pending)
-        Rails.logger.info "Updated animal status to: #{@animal.status}"
-        flash[:notice] = "You have applied to adopt this animal!"
+      if @adoption.save # This will trigger the after_save callback in Adoption model
+        @animal.reload # Ensure animal object has the latest status after callbacks
+        Rails.logger.info "Animal status after quick_adopt and callback: #{@animal.status}"
+        flash[:notice] = "Animal successfully adopted!" # Update flash message
       else
         flash[:alert] = "Failed to adopt animal: #{@adoption.errors.full_messages.join(', ')}"
       end
     else
-      flash[:alert] = "This animal is not available for adoption."
+      flash[:alert] = "This animal is not available for adoption. Current status: #{@animal.status_label}"
     end
     
     redirect_to animal_path(@animal)
@@ -143,17 +143,20 @@ class AdoptionController < ApplicationController
     adoption = current_user.adoptions.find_by(animal_id: @animal.id)
     
     if adoption
-      if adoption.destroy
-        @animal.update!(status: :available)
-        Rails.logger.info "Reset animal status to: #{@animal.status}"
+      animal_for_redirect = adoption.animal 
+
+      if adoption.destroy # This triggers after_destroy callback in Adoption model
+        animal_for_redirect.reload # Ensure animal object has the latest status after callbacks
+        Rails.logger.info "Animal status after quick_remove and callback: #{animal_for_redirect.status}"
         flash[:notice] = "Adoption cancelled successfully."
+        redirect_to animal_path(animal_for_redirect)
       else
         flash[:alert] = "Failed to cancel adoption."
+        redirect_to animal_path(@animal) 
       end
     else
       flash[:alert] = "No adoption found for this animal."
+      redirect_to animal_path(@animal)
     end
-    
-    redirect_to animal_path(@animal)
   end
 end
