@@ -1,5 +1,6 @@
 {
   "tasks": {
-    "test": "rails test"
+    "test": "rails test",
+    "launch": "npx vite"
   }
 }
