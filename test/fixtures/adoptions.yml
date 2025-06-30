@@ -1,0 +1,20 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  animal: one
+  user: one
+  status: pending
+  reason: I love dogs
+  home_type: House
+  has_yard: true
+  has_other_pets: false
+
+two:
+  animal: two
+  user: two
+  status: completed
+  reason: I love cats
+  home_type: Apartment
+  has_yard: false
+  has_other_pets: true
+  other_pets_description: One dog
