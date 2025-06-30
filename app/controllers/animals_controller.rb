@@ -5,12 +5,7 @@ class AnimalsController < ApplicationController
   # GET /animals or /animals.json
   def index
     @animals = Animal.all
-    # Make sure all animals have the correct status
-    @animals.each do |animal|
-      if animal.adoptions.any? && animal.status_available?
-        animal.update(status: :pending)
-      end
-    end
+    # Animal status is automatically maintained by the adoption model callbacks
   end
 
   # GET /animals/1 or /animals/1.json
