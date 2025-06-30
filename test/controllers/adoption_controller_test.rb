@@ -4,43 +4,78 @@ class AdoptionControllerTest < ActionDispatch::IntegrationTest
   setup do
     @animal = animals(:one)
     @user = users(:one)
+    @adoption = adoptions(:one)
   end
 
-  test "should adopt animal" do
-    post adopt_animal_url(@animal, user_id: @user.id)
-    assert_redirected_to user_url(@user)
-    assert_equal "Animal adopted successfully!", flash[:success]
+  test "should redirect to login when not authenticated" do
+    post adopt_animal_path(@animal)
+    assert_redirected_to login_path
+    assert_equal "You must be logged in to perform this action", flash[:alert]
+  end
+
+  test "should quick adopt animal when authenticated" do
+    # Simulate login by setting session
+    post login_path, params: { session: { username: @user.username, password: "password123" } }
+    follow_redirect!
+    
+    # Make sure animal is available
+    @animal.update(status: :available)
+    
+    post adopt_animal_path(@animal)
+    assert_redirected_to animal_path(@animal)
+    assert_equal "Animal successfully adopted!", flash[:notice]
+    
     @animal.reload
-    assert_equal @user, @animal.user
+    assert @animal.status_adopted?, "Animal should be adopted"
   end
 
-  test "should not adopt animal if under 18" do
-    @user.update(age: 17)
-    post adopt_animal_url(@animal, user_id: @user.id)
-    assert_redirected_to animals_url
-    assert_equal "You must be at least 18 years old to adopt an animal.", flash[:error]
+  test "should not adopt animal if not available" do
+    # Simulate login by setting session
+    post login_path, params: { session: { username: @user.username, password: "password123" } }
+    follow_redirect!
+    
+    @animal.update(status: :adopted)
+    
+    post adopt_animal_path(@animal)
+    assert_redirected_to animal_path(@animal)
+    assert flash[:alert].present?
   end
 
-  test "should not adopt already adopted animal" do
-    @animal.update(user: @user)
-    post adopt_animal_url(@animal, user_id: users(:two).id)
-    assert_redirected_to animal_url(@animal)
-    assert_equal "This animal is already adopted.", flash[:error]
+  test "should create adoption application when authenticated" do
+    # Simulate login by setting session
+    post login_path, params: { session: { username: @user.username, password: "password123" } }
+    follow_redirect!
+    
+    @animal.update(status: :available)
+    
+    post animal_adoptions_path(@animal), params: {
+      adoption: {
+        reason: "I love animals",
+        home_type: "House",
+        has_yard: true,
+        has_other_pets: false
+      }
+    }
+    
+    assert_redirected_to adoption_path(Adoption.last)
+    assert_equal "Adoption application submitted successfully!", flash[:notice]
   end
 
-  test "should remove adoption" do
-    @animal.update(user: @user)
-    delete remove_adoption_url(@animal, user_id: @user.id)
-    assert_redirected_to user_url(@user)
-    assert_equal "Adoption removed successfully!", flash[:success]
-    @animal.reload
-    assert_nil @animal.user
+  test "should show adoption when authenticated" do
+    # Simulate login by setting session
+    post login_path, params: { session: { username: @user.username, password: "password123" } }
+    follow_redirect!
+    
+    get adoption_path(@adoption)
+    assert_response :success
   end
 
-  test "should not remove adoption if not adopter" do
-    @animal.update(user: users(:two))
-    delete remove_adoption_url(@animal, user_id: @user.id)
-    assert_redirected_to animal_url(@animal)
-    assert_equal "You are not the adopter of this animal or the animal is not adopted.", flash[:error]
+  test "should get index when authenticated" do
+    # Simulate login by setting session
+    post login_path, params: { session: { username: @user.username, password: "password123" } }
+    follow_redirect!
+    
+    get adoptions_path
+    assert_response :success
   end
 end

@@ -29,7 +29,7 @@
 # @see Animal
 # @see Adoption
 class AdoptionController < ApplicationController
-  before_action :authenticate_user!
+  before_action :require_user
   before_action :set_animal, only: [:new, :create, :destroy, :quick_adopt, :quick_remove]
   before_action :set_adoption, only: [:show, :destroy]
 
@@ -56,8 +56,7 @@ class AdoptionController < ApplicationController
 
     if @animal.available?
       if @adoption.save
-        # Update animal status to pending
-        @animal.update(status: :pending)
+        # The animal status will be updated automatically by the after_save callback
         flash[:notice] = "Adoption application submitted successfully!"
         redirect_to adoption_path(@adoption)
       else
@@ -75,8 +74,7 @@ class AdoptionController < ApplicationController
       @animal = @adoption.animal
       
       if @adoption.destroy
-        # Make the animal available again
-        @animal.update(status: :available)
+        # The animal status will be updated automatically by the after_destroy callback
         flash[:notice] = "Adoption application withdrawn successfully."
       else
         flash[:alert] = "Failed to withdraw application."

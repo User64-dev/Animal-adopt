@@ -2,12 +2,12 @@
 
 one:
   name: MyString
-  type: 
+  animal_type: Dog
   age: 1
   race: MyString
 
 two:
   name: MyString
-  type: 
+  animal_type: Cat
   age: 1
   race: MyString
