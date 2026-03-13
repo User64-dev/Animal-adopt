@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Animals Adopt" %></title>
+    <title><%= content_for(:title) || "PawAdopt — Find Your Forever Friend" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
@@ -10,15 +10,16 @@
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
     
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
@@ -26,29 +27,69 @@
   </head>
 
   <body>
-    <header>
-      <h1><%= link_to "Animals Adopt", root_path %></h1>
-      <nav>
-        <% if logged_in? %>
-          <%= link_to "All Animals", animals_path %>
-          <%= link_to "My Profile", user_path(current_user) %>
-          <%= link_to "Logout", logout_path, data: { turbo_method: :delete } %>
-        <% else %>
-          <%= link_to "All Animals", animals_path %>
-          <%= link_to "Login", login_path %>
-          <%= link_to "Sign Up", new_user_path %>
-        <% end %>
-      </nav>
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="<%= root_path %>" class="site-logo">
+          <i class="fas fa-paw"></i> PawAdopt
+        </a>
+        <nav class="site-nav">
+          <%= link_to "Browse Animals", animals_path, class: "nav-link" %>
+          <% if logged_in? %>
+            <%= link_to "My Adoptions", adoptions_path, class: "nav-link" %>
+            <% if current_user.admin? %>
+              <%= link_to "Admin", admin_adoptions_path, class: "nav-link nav-admin" %>
+            <% end %>
+            <div class="nav-user-menu">
+              <span class="nav-username"><i class="fas fa-user-circle"></i> <%= current_user.username %></span>
+              <div class="nav-dropdown">
+                <%= link_to user_path(current_user), class: "dropdown-item" do %>
+                  <i class="fas fa-id-card"></i> My Profile
+                <% end %>
+                <%= link_to logout_path, class: "dropdown-item dropdown-logout", data: { turbo_method: :delete } do %>
+                  <i class="fas fa-sign-out-alt"></i> Logout
+                <% end %>
+              </div>
+            </div>
+          <% else %>
+            <%= link_to "Login", login_path, class: "nav-link" %>
+            <%= link_to "Sign Up", new_user_path, class: "nav-link nav-cta" %>
+          <% end %>
+        </nav>
+      </div>
     </header>
 
     <% flash.each do |name, msg| %>
-      <div class="alert alert-<%= name == 'notice' ? 'success' : 'danger' %>">
+      <div class="flash-message flash-<%= name == 'notice' ? 'success' : 'danger' %>">
+        <i class="fas fa-<%= name == 'notice' ? 'check-circle' : 'exclamation-circle' %>"></i>
         <%= msg %>
+        <button class="flash-close" onclick="this.parentElement.remove()">&times;</button>
       </div>
     <% end %>
     
-    <main>
+    <main class="site-main">
       <%= yield %>
     </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="footer-logo"><i class="fas fa-paw"></i> PawAdopt</span>
+          <p>Connecting loving homes with animals in need.</p>
+        </div>
+        <div class="footer-links">
+          <%= link_to "Browse Animals", animals_path %>
+          <% if logged_in? %>
+            <%= link_to "My Adoptions", adoptions_path %>
+            <%= link_to "My Profile", user_path(current_user) %>
+          <% else %>
+            <%= link_to "Login", login_path %>
+            <%= link_to "Sign Up", new_user_path %>
+          <% end %>
+        </div>
+        <div class="footer-copy">
+          <p>&copy; <%= Time.now.year %> PawAdopt. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>

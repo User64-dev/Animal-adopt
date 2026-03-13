@@ -2,25 +2,25 @@
 
 # Create an admin user
 admin = User.create!(
-  name: "Admin",
-  age: 30,
+  username: "admin",
+  email: "admin@example.com",
   password: "password123",
   password_confirmation: "password123",
   admin: true
 )
 
-puts "Admin user created: #{admin.name}"
+puts "Admin user created: #{admin.username}"
 
 # Create a regular user
 user = User.create!(
-  name: "Michele",
-  age: 25,
+  username: "michele",
+  email: "michele@example.com",
   password: "password123",
   password_confirmation: "password123",
   admin: false
 )
 
-puts "Regular user created: #{user.name}"
+puts "Regular user created: #{user.username}"
 
 # Create some animals
 animals = [

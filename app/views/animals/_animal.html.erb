@@ -1,10 +1,24 @@
 <div id="<%= dom_id animal %>" class="animal-card">
+  <% type_class = animal.animal_type&.downcase == "dog" ? "type-dog" : animal.animal_type&.downcase == "cat" ? "type-cat" : animal.animal_type&.downcase == "bird" ? "type-bird" : "type-other" %>
+  <div class="animal-card-top <%= type_class %>"></div>
+
+  <div class="animal-card-icon <%= type_class %>">
+    <% if animal.animal_type&.downcase == "dog" %>
+      <i class="fas fa-dog"></i>
+    <% elsif animal.animal_type&.downcase == "cat" %>
+      <i class="fas fa-cat"></i>
+    <% elsif animal.animal_type&.downcase == "bird" %>
+      <i class="fas fa-dove"></i>
+    <% else %>
+      <i class="fas fa-paw"></i>
+    <% end %>
+  </div>
+
   <div class="animal-header">
     <h2 class="animal-name"><%= animal.name %></h2>
-    
     <div class="status-tag">
       <% if animal.status_available? %>
-        <span class="status-label status-available"><i class="fas fa-paw"></i> Available</span>
+        <span class="status-label status-available"><i class="fas fa-check-circle"></i> Available</span>
       <% elsif animal.status_pending? %>
         <span class="status-label status-pending"><i class="fas fa-clock"></i> Pending</span>
       <% elsif animal.status_adopted? %>
@@ -26,7 +40,7 @@
       <i class="fas fa-birthday-cake"></i>
       <div>
         <span class="detail-label">Age</span>
-        <span class="detail-value"><%= animal.age %> years</span>
+        <span class="detail-value"><%= animal.age %> yrs</span>
       </div>
     </div>
     
@@ -37,5 +51,9 @@
         <span class="detail-value"><%= animal.race %></span>
       </div>
     </div>
+  </div>
+
+  <div class="animal-card-footer">
+    <%= link_to "View #{animal.name}", animal, class: "view-animal-link" %>
   </div>
 </div>

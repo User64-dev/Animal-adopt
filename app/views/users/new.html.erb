@@ -1,11 +1,18 @@
-<% content_for :title, "New user" %>
+<% content_for :title, "Sign Up" %>
 
-<h1>New user</h1>
+<div class="auth-card">
+  <div class="auth-header">
+    <span class="auth-icon"><i class="fas fa-heart"></i></span>
+    <h1>Create Account</h1>
+    <p>Join PawAdopt and find your perfect companion</p>
+  </div>
 
-<%= render "form", user: @user %>
+  <div class="auth-body">
+    <%= render "form", user: @user %>
+  </div>
 
-<br>
-
-<div>
-  <%= link_to "Back to users", users_path %>
+  <div class="auth-footer">
+    Already have an account? <%= link_to "Login here", login_path %>
+  </div>
 </div>
+

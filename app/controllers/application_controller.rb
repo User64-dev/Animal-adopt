@@ -20,4 +20,13 @@ class ApplicationController < ActionController::Base
       redirect_to login_path
     end
   end
+
+  alias_method :authenticate_user!, :require_user
+
+  def require_admin
+    unless logged_in? && current_user.admin?
+      flash[:alert] = "You must be an admin to perform this action"
+      redirect_to root_path
+    end
+  end
 end

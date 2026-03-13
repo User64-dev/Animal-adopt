@@ -34,14 +34,14 @@ class AdoptionController < ApplicationController
   before_action :set_adoption, only: [:show, :destroy]
 
   def index
-    @adoptions = current_user.adoptions
+    @adoptions = current_user.adoptions.includes(:animal).order(created_at: :desc)
   end
 
   def show
   end
 
   def new
-    if @animal.available?
+    if @animal.status_available?
       @adoption = Adoption.new
     else
       flash[:alert] = "This animal is not available for adoption."
@@ -54,7 +54,7 @@ class AdoptionController < ApplicationController
     @adoption.animal = @animal
     @adoption.user = current_user
 
-    if @animal.available?
+    if @animal.status_available?
       if @adoption.save
         # Update animal status to pending
         @animal.update(status: :pending)

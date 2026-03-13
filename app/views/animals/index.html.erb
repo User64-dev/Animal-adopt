@@ -1,18 +1,51 @@
-<p style="color: green"><%= notice %></p>
+<% content_for :title, "Browse Animals" %>
 
-<% content_for :title, "Animals" %>
+<div class="hero">
+  <span class="hero-icon"><i class="fas fa-paw"></i></span>
+  <h2>Find Your Forever Friend</h2>
+  <p>Every animal deserves a loving home. Browse our animals and start the adoption journey today.</p>
+  <div class="hero-actions">
+    <%= link_to "#all-animals", class: "hero-btn hero-btn-primary" do %>
+      <i class="fas fa-search"></i> Browse Animals
+    <% end %>
+    <% if logged_in? && current_user.admin? %>
+      <%= link_to new_animal_path, class: "hero-btn hero-btn-secondary" do %>
+        <i class="fas fa-plus"></i> Add Animal
+      <% end %>
+    <% end %>
+  </div>
+</div>
 
-<h1>Animals</h1>
+<div id="all-animals">
+  <div class="section-header">
+    <h2><i class="fas fa-paw"></i> Animals Available (<%= @animals.count %>)</h2>
+  </div>
 
-<div id="animals" class="animals-container">
-  <% @animals.each do |animal| %>
-    <div class="animal-card">
-      <%= render animal %>
-      <p>
-        <%= link_to "Show this animal", animal, class: "view-animal-link" %>
-      </p>
+  <% if @animals.empty? %>
+    <div class="empty-state">
+      <i class="fas fa-paw empty-icon"></i>
+      <h2>No animals listed yet</h2>
+      <p>Check back soon — animals will be listed here.</p>
+      <% if logged_in? && current_user.admin? %>
+        <%= link_to new_animal_path, class: "btn-primary-link" do %>
+          <i class="fas fa-plus"></i> Add First Animal
+        <% end %>
+      <% end %>
     </div>
+  <% else %>
+    <div id="animals" class="animals-container">
+      <% @animals.each do |animal| %>
+        <%= render animal %>
+      <% end %>
+    </div>
+
+    <% if logged_in? && current_user.admin? %>
+      <div class="add-animal-banner">
+        <%= link_to new_animal_path do %>
+          <i class="fas fa-plus-circle"></i> Add another animal
+        <% end %>
+      </div>
+    <% end %>
   <% end %>
 </div>
 
-<%= link_to "New animal", new_animal_path %>

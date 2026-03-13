@@ -1,0 +1,80 @@
+<% content_for :title, "Admin - Adoption Applications" %>
+
+<div class="page-container">
+  <div class="page-header">
+    <h1><i class="fas fa-shield-alt"></i> Admin: Adoption Applications</h1>
+    <p class="page-subtitle">Review and manage all adoption requests</p>
+  </div>
+
+  <div class="admin-stats">
+    <div class="stat-card">
+      <div class="stat-number"><%= @adoptions.count { |a| a.pending? } %></div>
+      <div class="stat-label"><i class="fas fa-clock"></i> Pending</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number"><%= @adoptions.count { |a| a.reviewing? } %></div>
+      <div class="stat-label"><i class="fas fa-search"></i> Reviewing</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number"><%= @adoptions.count { |a| a.approved? } %></div>
+      <div class="stat-label"><i class="fas fa-check-circle"></i> Approved</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number"><%= @adoptions.count { |a| a.completed? } %></div>
+      <div class="stat-label"><i class="fas fa-home"></i> Completed</div>
+    </div>
+  </div>
+
+  <% if @adoptions.empty? %>
+    <div class="empty-state">
+      <i class="fas fa-inbox empty-icon"></i>
+      <h2>No adoption applications yet</h2>
+      <p>Applications will appear here when users apply to adopt animals.</p>
+    </div>
+  <% else %>
+    <div class="admin-table-container">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Animal</th>
+            <th>Applicant</th>
+            <th>Home Type</th>
+            <th>Applied</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @adoptions.each do |adoption| %>
+            <tr>
+              <td>
+                <div class="table-animal-info">
+                  <strong><%= adoption.animal.name %></strong>
+                  <small><%= adoption.animal.animal_type %></small>
+                </div>
+              </td>
+              <td><%= adoption.user.username %></td>
+              <td><%= adoption.home_type %></td>
+              <td><%= adoption.created_at.strftime("%b %d, %Y") %></td>
+              <td>
+                <span class="adoption-status-badge status-<%= adoption.status %>">
+                  <%= adoption.status.capitalize %>
+                </span>
+              </td>
+              <td class="table-actions">
+                <%= link_to "View", admin_adoption_path(adoption), class: "btn-sm btn-view" %>
+                <% if adoption.pending? || adoption.reviewing? %>
+                  <%= button_to "Approve", approve_admin_adoption_path(adoption), method: :patch,
+                      class: "btn-sm btn-approve" %>
+                  <%= button_to "Reject", reject_admin_adoption_path(adoption), method: :patch,
+                      class: "btn-sm btn-reject",
+                      data: { confirm: "Reject this application?" } %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+</div>

@@ -1,282 +1,549 @@
-/* Animal Details Page Styling */
+/* ===== ANIMAL DETAIL PAGE ===== */
 
 .animal-profile-container {
-  max-width: 900px;
-  margin: 30px auto;
-  padding: 30px;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-  position: relative;
+  max-width: 820px;
+  margin: 0 auto;
+  background: white;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
   overflow: hidden;
 }
 
-/* Alert styling */
-.alert {
-  padding: 12px 20px;
-  margin-bottom: 20px;
-  border-radius: 4px;
+/* Top accent strip based on animal type */
+.animal-profile-container::before {
+  content: '';
+  display: block;
+  height: 6px;
+  background: linear-gradient(90deg, var(--green-500), var(--green-600));
 }
 
-.alert-success {
-  background-color: #d4edda;
-  border: 1px solid #c3e6cb;
-  color: #155724;
+/* Inner padding */
+.animal-profile-container > * { padding-left: 2rem; padding-right: 2rem; }
+.animal-profile-container > .adoption-status-section,
+.animal-profile-container > .adoption-actions,
+.animal-profile-container > .admin-controls { padding-left: 2rem; padding-right: 2rem; }
+
+.animal-profile-container .animal-card {
+  padding: 1.5rem 2rem;
+  box-shadow: none;
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid var(--gray-100);
 }
 
-/* Adoption status badges */
+.animal-profile-container .animal-card .animal-header {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+  padding: 0 0 1rem;
+}
+
+.animal-profile-container .animal-card .animal-details {
+  background: var(--gray-50);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  margin: 0;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.animal-profile-container .animal-card .animal-details .detail-item {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: left;
+}
+
+.animal-profile-container .animal-card .animal-details .detail-item i {
+  font-size: 1.25rem;
+  width: auto;
+}
+
+.animal-profile-container .animal-card .animal-name { font-size: 1.8rem; }
+
+/* Adoption status section */
 .adoption-status-section {
-  margin: 30px 0;
-  background-color: #f9f9f9;
-  padding: 20px;
-  border-radius: 8px;
-  border-left: 4px solid #4CAF50;
+  padding-top: 1.5rem;
+  padding-bottom: 0.5rem;
 }
 
 .adoption-status-section h3 {
-  font-size: 1.5rem;
-  margin-bottom: 15px;
-  color: #333;
-  border-bottom: 2px solid #e0e0e0;
-  padding-bottom: 10px;
-  display: flex;
-  align-items: center;
-}
-
-.adoption-status-section h3:before {
-  content: "\f1b0";
-  font-family: "Font Awesome 6 Free";
-  font-weight: 900;
-  margin-right: 10px;
-  color: #4CAF50;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gray-600);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 0.75rem;
 }
 
 .status-badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
+  gap: 0.5rem;
+  padding: 0.55rem 1.1rem;
   border-radius: 20px;
-  font-weight: 600;
-  font-size: 1rem;
-  margin-bottom: 20px;
-  transition: all 0.3s ease;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
 }
 
-.status-badge i {
-  font-size: 1.1rem;
-}
+.status-badge.status-available { background: var(--green-100); color: var(--green-800); }
+.status-badge.status-pending   { background: #fef3c7; color: #92400e; }
+.status-badge.status-adopted   { background: #e0f2fe; color: #0c4a6e; }
 
-.status-available {
-  background-color: #28a745;
-  color: white;
-  border-left: 5px solid #1e7e34;
-}
-
-.status-available:hover {
-  background-color: #218838;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 8px rgba(40, 167, 69, 0.3);
-}
-
-.status-pending {
-  background-color: #ffc107;
-  color: #212529;
-  border-left: 5px solid #d39e00;
-}
-
-.status-pending:hover {
-  background-color: #e0a800;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 8px rgba(255, 193, 7, 0.3);
-}
-
-.status-adopted {
-  background-color: #17a2b8;
-  color: white;
-  border-left: 5px solid #117a8b;
-}
-
-.status-adopted:hover {
-  background-color: #138496;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 8px rgba(23, 162, 184, 0.3);
-}
-
-/* Adoption action buttons */
+/* Adoption actions */
 .adoption-actions {
-  margin: 25px 0;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+  border-top: 1px solid var(--gray-100);
 }
 
 .btn-adopt {
-  display: inline-block;
-  background-color: #e74c3c;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--green-600);
   color: white;
   border: none;
-  border-radius: 25px;
-  padding: 12px 30px;
-  font-size: 1.1rem;
-  font-weight: 600;
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1.75rem;
+  font-size: 1rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.3s ease;
-  text-decoration: none;
-  box-shadow: 0 4px 6px rgba(231, 76, 60, 0.25);
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-}
-
-.btn-adopt:before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  transition: 0.5s;
-  z-index: -1;
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+  box-shadow: 0 4px 12px rgba(22,163,74,.3);
+  font-family: inherit;
 }
 
 .btn-adopt:hover {
-  background-color: #c0392b;
+  background: var(--green-700);
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(231, 76, 60, 0.4);
-}
-
-.btn-adopt:hover:before {
-  left: 100%;
+  box-shadow: 0 6px 16px rgba(22,163,74,.4);
 }
 
 .pulse-btn {
-  animation: pulse 2s infinite;
+  animation: gentle-pulse 2.5s ease-in-out infinite;
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    box-shadow: 0 4px 6px rgba(231, 76, 60, 0.25);
-  }
-  50% {
-    transform: scale(1.05);
-    box-shadow: 0 6px 12px rgba(231, 76, 60, 0.4);
-  }
-  100% {
-    transform: scale(1);
-    box-shadow: 0 4px 6px rgba(231, 76, 60, 0.25);
-  }
+@keyframes gentle-pulse {
+  0%, 100% { box-shadow: 0 4px 12px rgba(22,163,74,.3); }
+  50%       { box-shadow: 0 6px 20px rgba(22,163,74,.5); }
 }
 
 .adoption-note {
-  margin-top: 10px;
-  font-size: 0.9rem;
-  color: #666;
-  padding-left: 5px;
+  margin-top: 0.6rem;
+  font-size: 0.85rem;
+  color: var(--gray-500);
 }
 
 .btn-cancel-adoption {
-  background-color: #6c757d;
-  color: white;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--gray-200);
+  color: var(--gray-700);
   border: none;
-  border-radius: 25px;
-  padding: 10px 20px;
-  margin-top: 10px;
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background var(--transition);
+  font-family: inherit;
+  margin-top: 0.5rem;
 }
 
-.btn-cancel-adoption:hover {
-  background-color: #5a6268;
-}
+.btn-cancel-adoption:hover { background: var(--gray-300); }
 
 .btn-login {
-  display: inline-block;
-  background-color: #007bff;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--blue-500);
   color: white;
   text-decoration: none;
-  padding: 10px 20px;
-  border-radius: 25px;
-  transition: background-color 0.3s;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: background var(--transition);
 }
 
-.btn-login:hover {
-  background-color: #0069d9;
-  text-decoration: none;
-  color: white;
-}
+.btn-login:hover { background: var(--blue-600); color: white; }
 
-/* Adoption status info */
 .adoption-status-info {
-  background-color: #e8f4fc;
-  padding: 15px;
-  border-radius: 8px;
-  border-left: 4px solid #007bff;
-  margin-bottom: 20px;
+  background: #eff6ff;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius);
+  border-left: 4px solid var(--blue-500);
 }
 
-.adoption-status-info.not-available {
-  background-color: #f8f9fa;
-  border-left: 4px solid #6c757d;
-  color: #6c757d;
-}
+.adoption-status-info p { margin: 0 0 0.75rem; font-weight: 500; color: var(--gray-700); }
+.adoption-status-info.not-available { background: var(--gray-50); border-color: var(--gray-300); }
+.adoption-status-info.not-available i { color: var(--gray-400); }
 
-.adoption-status-info p {
-  margin: 0 0 15px 0;
-  font-weight: 500;
-}
+.login-prompt { }
 
 /* Admin controls */
 .admin-controls {
-  margin: 20px 0;
-  padding: 15px;
-  border-top: 1px solid #e9ecef;
-  border-bottom: 1px solid #e9ecef;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+  border-top: 1px solid var(--gray-100);
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.admin-controls-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--gray-400);
+  letter-spacing: 0.5px;
 }
 
 .btn-admin {
-  display: inline-block;
-  background-color: #6c757d;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 8px 15px;
-  margin-right: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--gray-100);
+  color: var(--gray-700);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
   text-decoration: none;
-  transition: background-color 0.3s;
+  cursor: pointer;
+  transition: background var(--transition);
+  font-family: inherit;
 }
 
-.btn-admin:hover {
-  background-color: #5a6268;
-  color: white;
-  text-decoration: none;
-}
-
-.btn-admin.btn-danger {
-  background-color: #dc3545;
-}
-
-.btn-admin.btn-danger:hover {
-  background-color: #c82333;
-}
+.btn-admin:hover { background: var(--gray-200); color: var(--gray-800); }
+.btn-admin.btn-danger { background: #fee2e2; color: var(--red-600); border-color: #fecaca; }
+.btn-admin.btn-danger:hover { background: #fecaca; }
 
 /* Back link */
 .back-link {
-  display: inline-block;
-  color: #6c757d;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--gray-500);
   text-decoration: none;
-  margin-top: 20px;
+  padding: 1rem 2rem;
+  font-size: 0.9rem;
   font-weight: 500;
-  transition: color 0.3s;
+  transition: color var(--transition);
+  border-top: 1px solid var(--gray-100);
+  display: block;
 }
 
-.back-link:hover {
-  color: #343a40;
-  text-decoration: none;
+.back-link:hover { color: var(--gray-800); }
+
+/* ===== ADOPTION FORM PAGE ===== */
+.adoption-form-card {
+  background: white;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  max-width: 680px;
+  margin: 0 auto;
 }
 
-/* Font Awesome placeholder styles (if Font Awesome isn't already included) */
-.fa {
-  display: inline-block;
-  margin-right: 5px;
+.adoption-form-header {
+  background: linear-gradient(135deg, var(--green-700), var(--green-600));
+  color: white;
+  text-align: center;
+  padding: 2.5rem 2rem 2rem;
 }
+
+.animal-icon-large {
+  width: 80px;
+  height: 80px;
+  background: rgba(255,255,255,.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  margin: 0 auto 1rem;
+}
+
+.adoption-form-header h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem;
+}
+
+.form-subtitle { opacity: 0.85; margin: 0; font-size: 0.95rem; }
+
+.animal-summary {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  padding: 1rem 2rem;
+  background: var(--gray-50);
+  border-bottom: 1px solid var(--gray-100);
+  flex-wrap: wrap;
+}
+
+.animal-summary-item {
+  font-size: 0.9rem;
+  color: var(--gray-600);
+  font-weight: 500;
+}
+
+.adoption-form {
+  padding: 1.5rem 2rem 2rem;
+}
+
+.form-section {
+  margin-bottom: 2rem;
+}
+
+.form-section h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gray-700);
+  margin: 0 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--gray-100);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* ===== ADOPTIONS LIST PAGE ===== */
+.adoptions-list { display: flex; flex-direction: column; gap: 1rem; }
+
+.adoption-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--gray-100);
+  overflow: hidden;
+  transition: box-shadow var(--transition);
+}
+
+.adoption-card:hover { box-shadow: var(--shadow); }
+
+.adoption-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--gray-100);
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.adoption-animal-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.adoption-animal-info h3 { margin: 0 0 0.2rem; font-size: 1.1rem; font-weight: 700; color: var(--gray-800); }
+
+.animal-type-badge {
+  font-size: 0.8rem;
+  color: var(--gray-500);
+  font-weight: 500;
+}
+
+.animal-type-icon {
+  width: 48px;
+  height: 48px;
+  background: var(--green-50);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  color: var(--green-600);
+  flex-shrink: 0;
+}
+
+.animal-type-icon.large {
+  width: 64px;
+  height: 64px;
+  font-size: 1.8rem;
+}
+
+.adoption-card-body {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+}
+
+.adoption-detail { display: flex; flex-direction: column; gap: 0.2rem; }
+.adoption-detail .detail-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray-400); font-weight: 700; display: flex; align-items: center; gap: 0.3rem; }
+.adoption-detail .detail-value { font-size: 0.9rem; color: var(--gray-700); font-weight: 500; }
+
+.adoption-card-footer {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.85rem 1.5rem;
+  border-top: 1px solid var(--gray-100);
+  background: var(--gray-50);
+  align-items: center;
+}
+
+/* ===== ADOPTION DETAIL PAGE ===== */
+.adoption-detail-card {
+  background: white;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.adoption-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 2rem 2rem 1.5rem;
+  border-bottom: 1px solid var(--gray-100);
+  flex-wrap: wrap;
+  gap: 1rem;
+  background: linear-gradient(135deg, var(--gray-50), white);
+}
+
+.adoption-header-left { display: flex; align-items: center; gap: 1rem; }
+.adoption-header-left h1 { font-size: 1.6rem; font-weight: 700; margin: 0; color: var(--gray-800); }
+
+.detail-sections { padding: 0 2rem; }
+
+.detail-section {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.detail-section:last-child { border-bottom: none; }
+
+.detail-section h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gray-600);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.detail-grid .detail-item { display: flex; flex-direction: column; gap: 0.2rem; }
+.detail-grid .detail-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray-400); font-weight: 700; }
+.detail-grid .detail-value { font-size: 0.95rem; color: var(--gray-700); font-weight: 600; }
+.detail-grid .detail-item.full-width { grid-column: 1 / -1; }
+
+.reason-text {
+  background: var(--gray-50);
+  border-left: 4px solid var(--green-500);
+  padding: 1rem 1.25rem;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  color: var(--gray-700);
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+.adoption-detail-footer {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1.25rem 2rem;
+  border-top: 1px solid var(--gray-100);
+  background: var(--gray-50);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* ===== ADMIN TABLE ===== */
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--gray-100);
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--green-600);
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--gray-500);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 0.25rem;
+}
+
+.admin-table-container {
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  border: 1px solid var(--gray-100);
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.admin-table th {
+  background: var(--gray-50);
+  color: var(--gray-500);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+  padding: 0.85rem 1.25rem;
+  text-align: left;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.admin-table td {
+  padding: 0.85rem 1.25rem;
+  border-bottom: 1px solid var(--gray-100);
+  color: var(--gray-700);
+  vertical-align: middle;
+}
+
+.admin-table tr:last-child td { border-bottom: none; }
+.admin-table tr:hover td { background: var(--gray-50); }
+
+.table-animal-info { display: flex; flex-direction: column; }
+.table-animal-info strong { font-weight: 700; color: var(--gray-800); }
+.table-animal-info small { color: var(--gray-400); font-size: 0.8rem; }
+
+.table-actions { display: flex; gap: 0.5rem; align-items: center; }
+

@@ -1,0 +1,79 @@
+<% content_for :title, "My Adoptions" %>
+
+<div class="page-container">
+  <div class="page-header">
+    <h1><i class="fas fa-heart"></i> My Adoption Applications</h1>
+    <p class="page-subtitle">Track the status of your adoption requests</p>
+  </div>
+
+  <% if @adoptions.empty? %>
+    <div class="empty-state">
+      <i class="fas fa-paw empty-icon"></i>
+      <h2>No adoptions yet</h2>
+      <p>You haven't applied to adopt any animals yet.</p>
+      <%= link_to "Browse Animals", animals_path, class: "btn-primary-link" %>
+    </div>
+  <% else %>
+    <div class="adoptions-list">
+      <% @adoptions.each do |adoption| %>
+        <div class="adoption-card">
+          <div class="adoption-card-header">
+            <div class="adoption-animal-info">
+              <div class="animal-type-icon">
+                <% if adoption.animal.animal_type&.downcase == "dog" %>
+                  <i class="fas fa-dog"></i>
+                <% elsif adoption.animal.animal_type&.downcase == "cat" %>
+                  <i class="fas fa-cat"></i>
+                <% else %>
+                  <i class="fas fa-paw"></i>
+                <% end %>
+              </div>
+              <div>
+                <h3><%= adoption.animal.name %></h3>
+                <span class="animal-type-badge"><%= adoption.animal.animal_type %> &bull; <%= adoption.animal.race %></span>
+              </div>
+            </div>
+            <div class="adoption-status-badge status-<%= adoption.status %>">
+              <% case adoption.status
+                 when "pending" %>
+                <i class="fas fa-clock"></i> Pending Review
+              <% when "reviewing" %>
+                <i class="fas fa-search"></i> Under Review
+              <% when "approved" %>
+                <i class="fas fa-check-circle"></i> Approved
+              <% when "completed" %>
+                <i class="fas fa-home"></i> Completed
+              <% when "rejected" %>
+                <i class="fas fa-times-circle"></i> Rejected
+              <% end %>
+            </div>
+          </div>
+
+          <div class="adoption-card-body">
+            <div class="adoption-detail">
+              <span class="detail-label"><i class="fas fa-comment-alt"></i> Reason</span>
+              <span class="detail-value"><%= truncate(adoption.reason, length: 100) %></span>
+            </div>
+            <div class="adoption-detail">
+              <span class="detail-label"><i class="fas fa-home"></i> Home Type</span>
+              <span class="detail-value"><%= adoption.home_type %></span>
+            </div>
+            <div class="adoption-detail">
+              <span class="detail-label"><i class="fas fa-calendar"></i> Applied</span>
+              <span class="detail-value"><%= adoption.created_at.strftime("%B %d, %Y") %></span>
+            </div>
+          </div>
+
+          <div class="adoption-card-footer">
+            <%= link_to "View Details", adoption_path(adoption), class: "btn-view" %>
+            <% if adoption.pending? %>
+              <%= button_to "Withdraw", adoption_path(adoption), method: :delete,
+                  class: "btn-withdraw",
+                  data: { confirm: "Are you sure you want to withdraw this application?" } %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
