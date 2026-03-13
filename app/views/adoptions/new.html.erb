@@ -63,12 +63,12 @@
 
         <div class="form-group form-check-group">
           <label class="form-check-label">
-            <%= form.check_box :has_other_pets, class: "form-check-input", data: { action: "change->adoption#togglePets" } %>
+            <%= form.check_box :has_other_pets, class: "form-check-input", id: "adoption_has_other_pets" %>
             Do you have other pets?
           </label>
         </div>
 
-        <div class="form-group" id="other-pets-description">
+        <div class="form-group" id="other-pets-description" style="display: none;">
           <%= form.label :other_pets_description, "Describe your other pets" %>
           <%= form.text_area :other_pets_description, rows: 3, placeholder: "e.g., 1 friendly dog, 2 cats...", class: "form-control" %>
         </div>
@@ -81,3 +81,17 @@
     <% end %>
   </div>
 </div>
+
+<script>
+  (function() {
+    var checkbox = document.getElementById('adoption_has_other_pets');
+    var descSection = document.getElementById('other-pets-description');
+    function toggle() {
+      descSection.style.display = checkbox.checked ? '' : 'none';
+    }
+    if (checkbox) {
+      checkbox.addEventListener('change', toggle);
+      toggle();
+    }
+  })();
+</script>
