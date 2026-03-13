@@ -1,0 +1,97 @@
+<% content_for :title, "Apply to Adopt #{@animal.name}" %>
+
+<div class="page-container">
+  <div class="adoption-form-card">
+    <div class="adoption-form-header">
+      <div class="animal-icon-large">
+        <% if @animal.animal_type&.downcase == "dog" %>
+          <i class="fas fa-dog"></i>
+        <% elsif @animal.animal_type&.downcase == "cat" %>
+          <i class="fas fa-cat"></i>
+        <% else %>
+          <i class="fas fa-paw"></i>
+        <% end %>
+      </div>
+      <h1>Adopt <%= @animal.name %></h1>
+      <p class="form-subtitle">Complete this application to start the adoption process</p>
+    </div>
+
+    <div class="animal-summary">
+      <div class="animal-summary-item"><i class="fas fa-paw"></i> <strong>Type:</strong> <%= @animal.animal_type %></div>
+      <div class="animal-summary-item"><i class="fas fa-birthday-cake"></i> <strong>Age:</strong> <%= @animal.age %> years</div>
+      <div class="animal-summary-item"><i class="fas fa-dog"></i> <strong>Breed:</strong> <%= @animal.race %></div>
+    </div>
+
+    <%= form_with(url: animal_adoptions_path(@animal), method: :post, local: true, class: "adoption-form") do |form| %>
+      <% if @adoption.errors.any? %>
+        <div class="alert alert-danger">
+          <h4><i class="fas fa-exclamation-circle"></i> <%= pluralize(@adoption.errors.count, "error") %> prevented this application:</h4>
+          <ul>
+            <% @adoption.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="form-section">
+        <h3><i class="fas fa-comment-alt"></i> Tell us about yourself</h3>
+
+        <div class="form-group">
+          <%= form.label :reason, "Why do you want to adopt #{@animal.name}?" %>
+          <%= form.text_area :reason, rows: 4, placeholder: "Tell us why you'd be a great owner for #{@animal.name}...", class: "form-control" %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :home_type, "What type of home do you live in?" %>
+          <%= form.select :home_type,
+              [["Select home type", ""], ["House", "House"], ["Apartment", "Apartment"], ["Condo", "Condo"], ["Farm/Rural", "Farm/Rural"], ["Other", "Other"]],
+              {},
+              class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3><i class="fas fa-home"></i> About your home</h3>
+
+        <div class="form-group form-check-group">
+          <label class="form-check-label">
+            <%= form.check_box :has_yard, class: "form-check-input" %>
+            Do you have a yard?
+          </label>
+        </div>
+
+        <div class="form-group form-check-group">
+          <label class="form-check-label">
+            <%= form.check_box :has_other_pets, class: "form-check-input", id: "adoption_has_other_pets" %>
+            Do you have other pets?
+          </label>
+        </div>
+
+        <div class="form-group" id="other-pets-description" style="display: none;">
+          <%= form.label :other_pets_description, "Describe your other pets" %>
+          <%= form.text_area :other_pets_description, rows: 3, placeholder: "e.g., 1 friendly dog, 2 cats...", class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <%= form.submit "Submit Application", class: "btn-submit" %>
+        <%= link_to "Cancel", animal_path(@animal), class: "btn-cancel" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+  (function() {
+    var checkbox = document.getElementById('adoption_has_other_pets');
+    var descSection = document.getElementById('other-pets-description');
+    function toggle() {
+      descSection.style.display = checkbox.checked ? '' : 'none';
+    }
+    if (checkbox) {
+      checkbox.addEventListener('change', toggle);
+      toggle();
+    }
+  })();
+</script>

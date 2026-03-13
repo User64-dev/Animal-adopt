@@ -1,72 +1,147 @@
-/* Animal Card Styling */
+/* ===== ANIMAL CARD ===== */
+
+.animals-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
 
 .animal-card {
-  background-color: #fff;
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+  background: white;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid var(--gray-100);
+  display: flex;
+  flex-direction: column;
 }
+
+.animal-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Animal type color strip */
+.animal-card-top {
+  height: 8px;
+  background: linear-gradient(90deg, var(--green-500), var(--green-600));
+}
+
+.animal-card-top.type-dog   { background: linear-gradient(90deg, #f59e0b, #d97706); }
+.animal-card-top.type-cat   { background: linear-gradient(90deg, #8b5cf6, #7c3aed); }
+.animal-card-top.type-bird  { background: linear-gradient(90deg, #06b6d4, #0891b2); }
+.animal-card-top.type-other { background: linear-gradient(90deg, var(--green-500), var(--green-600)); }
+
+.animal-card-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  margin: 1.25rem auto 0;
+  background: var(--green-50);
+  color: var(--green-600);
+  border: 3px solid var(--green-100);
+}
+
+.animal-card-icon.type-dog   { background: #fffbeb; color: #d97706; border-color: #fde68a; }
+.animal-card-icon.type-cat   { background: #f5f3ff; color: #7c3aed; border-color: #ddd6fe; }
+.animal-card-icon.type-bird  { background: #ecfeff; color: #0891b2; border-color: #a5f3fc; }
 
 .animal-header {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #f0f0f0;
+  padding: 0.75rem 1.25rem 0.5rem;
+  text-align: center;
 }
 
 .animal-name {
-  font-size: 2rem;
+  font-size: 1.3rem;
   font-weight: 700;
-  color: #333;
-  margin: 0;
+  color: var(--gray-800);
+  margin: 0.5rem 0 0.4rem;
 }
 
-.status-tag {
-  margin-left: 10px;
-}
+.status-tag { margin-bottom: 0; }
 
 .status-label {
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-weight: 600;
-  font-size: 0.85rem;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 0.3rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
+
+.status-available { background: var(--green-100); color: var(--green-800); }
+.status-pending   { background: #fef3c7; color: #92400e; }
+.status-adopted   { background: #e0f2fe; color: #0c4a6e; }
 
 .animal-details {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  background: var(--gray-50);
+  margin: 0.75rem 0 0;
 }
 
 .detail-item {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 15px;
-}
-
-.detail-item i {
-  font-size: 1.5rem;
-  color: #6c757d;
-  width: 30px;
   text-align: center;
 }
 
+.detail-item i {
+  font-size: 1.1rem;
+  color: var(--gray-400);
+  margin-bottom: 0.25rem;
+}
+
 .detail-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--gray-400);
+  font-weight: 600;
   display: block;
-  font-size: 0.85rem;
-  color: #6c757d;
-  margin-bottom: 3px;
 }
 
 .detail-value {
-  display: block;
+  font-size: 0.9rem;
   font-weight: 600;
-  color: #333;
-  font-size: 1.1rem;
+  color: var(--gray-700);
+  display: block;
 }
+
+/* View link at bottom of card */
+.animal-card-footer {
+  padding: 0.85rem 1.25rem;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid var(--gray-100);
+  margin-top: auto;
+}
+
+.view-animal-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--green-600);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: color var(--transition);
+}
+
+.view-animal-link:hover { color: var(--green-700); }
+.view-animal-link::after { content: " →"; }
+

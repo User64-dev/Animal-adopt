@@ -1,0 +1,102 @@
+<% content_for :title, "Adoption Application - #{@adoption.animal.name}" %>
+
+<div class="page-container">
+  <div class="adoption-detail-card">
+    <div class="adoption-detail-header">
+      <div class="adoption-header-left">
+        <div class="animal-type-icon large">
+          <% if @adoption.animal.animal_type&.downcase == "dog" %>
+            <i class="fas fa-dog"></i>
+          <% elsif @adoption.animal.animal_type&.downcase == "cat" %>
+            <i class="fas fa-cat"></i>
+          <% else %>
+            <i class="fas fa-paw"></i>
+          <% end %>
+        </div>
+        <div>
+          <h1>Adoption: <%= @adoption.animal.name %></h1>
+          <p class="text-muted">Application submitted <%= @adoption.created_at.strftime("%B %d, %Y") %></p>
+        </div>
+      </div>
+      <div class="adoption-status-badge status-<%= @adoption.status %> large">
+        <% case @adoption.status
+           when "pending" %>
+          <i class="fas fa-clock"></i> Pending Review
+        <% when "reviewing" %>
+          <i class="fas fa-search"></i> Under Review
+        <% when "approved" %>
+          <i class="fas fa-check-circle"></i> Approved
+        <% when "completed" %>
+          <i class="fas fa-home"></i> Completed
+        <% when "rejected" %>
+          <i class="fas fa-times-circle"></i> Rejected
+        <% end %>
+      </div>
+    </div>
+
+    <div class="detail-sections">
+      <div class="detail-section">
+        <h2><i class="fas fa-dog"></i> Animal Information</h2>
+        <div class="detail-grid">
+          <div class="detail-item">
+            <span class="detail-label">Name</span>
+            <span class="detail-value"><%= @adoption.animal.name %></span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Type</span>
+            <span class="detail-value"><%= @adoption.animal.animal_type %></span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Breed</span>
+            <span class="detail-value"><%= @adoption.animal.race %></span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Age</span>
+            <span class="detail-value"><%= @adoption.animal.age %> years</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-section">
+        <h2><i class="fas fa-user"></i> Applicant Information</h2>
+        <div class="detail-grid">
+          <div class="detail-item">
+            <span class="detail-label">Home Type</span>
+            <span class="detail-value"><%= @adoption.home_type %></span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Has Yard</span>
+            <span class="detail-value"><%= @adoption.has_yard ? "Yes" : "No" %></span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Has Other Pets</span>
+            <span class="detail-value"><%= @adoption.has_other_pets ? "Yes" : "No" %></span>
+          </div>
+          <% if @adoption.has_other_pets %>
+            <div class="detail-item full-width">
+              <span class="detail-label">Other Pets Description</span>
+              <span class="detail-value"><%= @adoption.other_pets_description %></span>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="detail-section">
+        <h2><i class="fas fa-comment-alt"></i> Adoption Reason</h2>
+        <div class="reason-text">
+          <%= @adoption.reason %>
+        </div>
+      </div>
+    </div>
+
+    <div class="adoption-detail-footer">
+      <% if @adoption.pending? %>
+        <%= button_to "Withdraw Application", adoption_path(@adoption), method: :delete,
+            class: "btn-withdraw",
+            data: { confirm: "Are you sure you want to withdraw this application?" } %>
+      <% end %>
+      <%= link_to "View Animal", animal_path(@adoption.animal), class: "btn-view" %>
+      <%= link_to "My Adoptions", adoptions_path, class: "btn-back" %>
+    </div>
+  </div>
+</div>

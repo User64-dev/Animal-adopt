@@ -1,118 +1,542 @@
 /* 
- * This is the main application stylesheet that includes all styles
+ * PawAdopt — Main Stylesheet
+ * Imports all partials
  */
 
-/* Basic styles for the Animal Adopt application */
 @import url("custom.css");
 @import url("animal_details.css");
 @import url("animal_card.css");
 
+/* ===== CSS RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; }
+
+:root {
+  --green-50:  #f0fdf4;
+  --green-100: #dcfce7;
+  --green-500: #22c55e;
+  --green-600: #16a34a;
+  --green-700: #15803d;
+  --green-800: #166534;
+  --amber-400: #fbbf24;
+  --amber-500: #f59e0b;
+  --red-400:   #f87171;
+  --red-500:   #ef4444;
+  --red-600:   #dc2626;
+  --blue-400:  #60a5fa;
+  --blue-500:  #3b82f6;
+  --blue-600:  #2563eb;
+  --teal-500:  #14b8a6;
+  --gray-50:   #f9fafb;
+  --gray-100:  #f3f4f6;
+  --gray-200:  #e5e7eb;
+  --gray-300:  #d1d5db;
+  --gray-400:  #9ca3af;
+  --gray-500:  #6b7280;
+  --gray-600:  #4b5563;
+  --gray-700:  #374151;
+  --gray-800:  #1f2937;
+  --gray-900:  #111827;
+  --radius-sm: 6px;
+  --radius:    10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
+  --shadow:    0 4px 12px rgba(0,0,0,.08), 0 2px 4px rgba(0,0,0,.05);
+  --shadow-lg: 0 10px 30px rgba(0,0,0,.1),  0 4px 8px  rgba(0,0,0,.05);
+  --transition: 0.2s ease;
+}
+
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', Arial, sans-serif;
   margin: 0;
   padding: 0;
+  background: var(--gray-50);
+  color: var(--gray-800);
   line-height: 1.6;
-}
-
-header {
-  background-color: #4CAF50;
-  padding: 1rem;
-  color: white;
+  min-height: 100vh;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
 }
 
-header h1 a {
-  color: white;
-  text-decoration: none;
+/* ===== HEADER ===== */
+.site-header {
+  background: linear-gradient(135deg, var(--green-700) 0%, var(--green-600) 100%);
+  box-shadow: 0 2px 12px rgba(0,0,0,.15);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-nav {
-  display: flex;
-  gap: 1rem;
-}
-
-nav a {
-  color: white;
-  text-decoration: none;
-  padding: 0.5rem;
-}
-
-nav a:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
-}
-
-main {
+.header-inner {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 0 1.5rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
+.site-logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  letter-spacing: -0.3px;
+}
+
+.site-logo i { font-size: 1.3rem; }
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.nav-link {
+  color: rgba(255,255,255,0.9);
+  text-decoration: none;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background var(--transition), color var(--transition);
+}
+
+.nav-link:hover { background: rgba(255,255,255,.15); color: white; }
+
+.nav-cta {
+  background: white;
+  color: var(--green-700) !important;
+  font-weight: 600;
+  margin-left: 0.25rem;
+}
+
+.nav-cta:hover { background: var(--green-50); color: var(--green-700) !important; }
+
+.nav-admin {
+  background: rgba(251, 191, 36, .2);
+  color: #fde68a !important;
+}
+
+.nav-admin:hover { background: rgba(251, 191, 36, .3); color: white !important; }
+
+.nav-user-menu {
+  position: relative;
+  margin-left: 0.25rem;
+}
+
+.nav-username {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: rgba(255,255,255,.9);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition);
+}
+
+.nav-username:hover { background: rgba(255,255,255,.15); }
+
+.nav-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  min-width: 180px;
+  overflow: hidden;
+  z-index: 200;
+}
+
+.nav-user-menu:hover .nav-dropdown { display: block; }
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1rem;
+  color: var(--gray-700);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: background var(--transition);
+}
+
+.dropdown-item:hover { background: var(--gray-50); }
+.dropdown-logout { color: var(--red-500); }
+.dropdown-logout:hover { background: #fef2f2; }
+
+/* ===== FLASH MESSAGES ===== */
+.flash-message {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  position: relative;
+}
+
+.flash-success {
+  background: var(--green-100);
+  color: var(--green-800);
+  border-bottom: 2px solid #bbf7d0;
+}
+
+.flash-danger {
+  background: #fee2e2;
+  color: #991b1b;
+  border-bottom: 2px solid #fecaca;
+}
+
+.flash-close {
+  margin-left: auto;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.6;
+  line-height: 1;
+  padding: 0 4px;
+}
+
+.flash-close:hover { opacity: 1; }
+
+/* ===== MAIN ===== */
+.site-main {
+  flex: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+/* ===== FOOTER ===== */
+.site-footer {
+  background: var(--gray-800);
+  color: var(--gray-300);
+  margin-top: auto;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 2rem;
+  align-items: start;
+}
+
+.footer-logo {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: white;
+}
+
+.footer-brand p {
+  font-size: 0.85rem;
+  margin: 0.4rem 0 0;
+  color: var(--gray-400);
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer-links a {
+  color: var(--gray-400);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color var(--transition);
+}
+
+.footer-links a:hover { color: white; }
+
+.footer-copy {
+  font-size: 0.8rem;
+  color: var(--gray-500);
+  text-align: right;
+}
+
+.footer-copy p { margin: 0; }
+
+/* ===== GENERIC PAGE CONTAINERS ===== */
+.page-container { max-width: 900px; margin: 0 auto; }
+
+.page-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.page-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--gray-800);
+  margin: 0 0 0.4rem;
+}
+
+.page-subtitle {
+  color: var(--gray-500);
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* ===== ALERTS ===== */
 .alert {
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 4px;
+  padding: 0.85rem 1.1rem;
+  margin-bottom: 1.25rem;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
 }
 
 .alert-success {
-  background-color: #d4edda;
-  border: 1px solid #c3e6cb;
-  color: #155724;
+  background: var(--green-100);
+  border: 1px solid #bbf7d0;
+  color: var(--green-800);
 }
 
 .alert-danger {
-  background-color: #f8d7da;
-  border: 1px solid #f5c6cb;
-  color: #721c24;
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
 }
 
-/* Animal cards */
-.animals-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1rem;
+.alert-danger ul { margin: 0.4rem 0 0 1.2rem; padding: 0; }
+.alert-danger li { margin-bottom: 0.2rem; }
+
+/* ===== FORMS ===== */
+.form-group {
+  margin-bottom: 1.25rem;
 }
 
-.animal-card {
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 1rem;
-  transition: transform 0.3s ease;
+.form-group label,
+.form-group > label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--gray-700);
+  margin-bottom: 0.4rem;
 }
 
-.animal-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-/* Forms */
-form div {
-  margin-bottom: 1rem;
-}
-
-input[type=text], 
-input[type=number], 
-input[type=password], 
-textarea, 
+.form-control,
+input[type=text],
+input[type=number],
+input[type=email],
+input[type=password],
+textarea,
 select {
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  padding: 0.6rem 0.85rem;
+  border: 1.5px solid var(--gray-300);
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--gray-800);
+  background: white;
+  transition: border-color var(--transition), box-shadow var(--transition);
   box-sizing: border-box;
 }
 
-input[type=submit] {
-  background-color: #4CAF50;
-  color: white;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 4px;
+.form-control:focus,
+input[type=text]:focus,
+input[type=email]:focus,
+input[type=password]:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--green-500);
+  box-shadow: 0 0 0 3px rgba(34,197,94,.12);
+}
+
+.form-check-group {
+  display: flex;
+  align-items: center;
+}
+
+.form-check-label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--gray-700);
   cursor: pointer;
 }
 
-input[type=submit]:hover {
-  background-color: #45a049;
+input[type=checkbox] {
+  width: 1.1rem;
+  height: 1.1rem;
+  accent-color: var(--green-600);
+  cursor: pointer;
 }
+
+input[type=submit],
+.btn-submit {
+  background: var(--green-600);
+  color: white;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+  transition: background var(--transition), transform var(--transition);
+}
+
+input[type=submit]:hover,
+.btn-submit:hover {
+  background: var(--green-700);
+  transform: translateY(-1px);
+}
+
+/* ===== BUTTONS ===== */
+.btn-primary-link {
+  display: inline-block;
+  background: var(--green-600);
+  color: white;
+  text-decoration: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.btn-primary-link:hover { background: var(--green-700); transform: translateY(-1px); color: white; }
+
+.btn-view {
+  display: inline-block;
+  background: var(--blue-500);
+  color: white;
+  text-decoration: none;
+  padding: 0.55rem 1.1rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: background var(--transition);
+}
+
+.btn-view:hover { background: var(--blue-600); color: white; }
+
+.btn-withdraw {
+  display: inline-block;
+  background: var(--red-500);
+  color: white;
+  text-decoration: none;
+  padding: 0.55rem 1.1rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.85rem;
+  border: none;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.btn-withdraw:hover { background: var(--red-600); }
+
+.btn-back {
+  display: inline-block;
+  background: var(--gray-200);
+  color: var(--gray-700);
+  text-decoration: none;
+  padding: 0.55rem 1.1rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: background var(--transition);
+}
+
+.btn-back:hover { background: var(--gray-300); }
+
+.btn-cancel {
+  display: inline-block;
+  background: var(--gray-200);
+  color: var(--gray-700);
+  text-decoration: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background var(--transition);
+}
+
+.btn-cancel:hover { background: var(--gray-300); }
+
+/* Small admin buttons */
+.btn-sm { padding: 0.35rem 0.7rem; font-size: 0.8rem; border: none; cursor: pointer; border-radius: var(--radius-sm); font-weight: 600; }
+.btn-approve { background: var(--green-600); color: white; }
+.btn-approve:hover { background: var(--green-700); }
+.btn-reject { background: var(--red-500); color: white; }
+.btn-reject:hover { background: var(--red-600); }
+
+/* ===== STATUS BADGES ===== */
+.adoption-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.adoption-status-badge.large {
+  padding: 0.55rem 1.1rem;
+  font-size: 0.9rem;
+}
+
+.adoption-status-badge.status-pending   { background: #fef3c7; color: #92400e; }
+.adoption-status-badge.status-reviewing { background: #dbeafe; color: #1e40af; }
+.adoption-status-badge.status-approved  { background: var(--green-100); color: var(--green-800); }
+.adoption-status-badge.status-completed { background: #e0f2fe; color: #0c4a6e; }
+.adoption-status-badge.status-rejected  { background: #fee2e2; color: #991b1b; }
+
+/* ===== EMPTY STATE ===== */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--gray-400);
+}
+
+.empty-icon {
+  font-size: 4rem;
+  display: block;
+  margin-bottom: 1rem;
+  opacity: 0.4;
+}
+
+.empty-state h2 { font-size: 1.4rem; color: var(--gray-600); margin: 0 0 0.5rem; }
+.empty-state p  { margin: 0 0 1.5rem; color: var(--gray-500); }
+
+/* ===== TEXT UTILITIES ===== */
+.text-muted { color: var(--gray-500); font-size: 0.9rem; margin: 0.25rem 0 0; }
+.admin-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #fef3c7;
+  color: #92400e;
+  padding: 0.25rem 0.65rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+

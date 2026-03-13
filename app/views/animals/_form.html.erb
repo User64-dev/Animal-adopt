@@ -1,8 +1,7 @@
 <%= form_with(model: animal) do |form| %>
   <% if animal.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(animal.errors.count, "error") %> prohibited this animal from being saved:</h2>
-
+    <div class="alert alert-danger">
+      <strong><i class="fas fa-exclamation-circle"></i> <%= pluralize(animal.errors.count, "error") %> prevented saving:</strong>
       <ul>
         <% animal.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -11,27 +10,30 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+  <div class="form-group">
+    <%= form.label :name, "Animal Name" %>
+    <%= form.text_field :name, class: "form-control", placeholder: "e.g., Max, Luna..." %>
   </div>
 
-  <div>
-    <%= form.label :type, style: "display: block" %>
-    <%= form.text_field :type %>
+  <div class="form-group">
+    <%= form.label :animal_type, "Type" %>
+    <%= form.select :animal_type,
+        [["Select type", ""], ["Dog", "Dog"], ["Cat", "Cat"], ["Bird", "Bird"], ["Rabbit", "Rabbit"], ["Other", "Other"]],
+        {},
+        class: "form-control" %>
   </div>
 
-  <div>
-    <%= form.label :age, style: "display: block" %>
-    <%= form.number_field :age %>
+  <div class="form-group">
+    <%= form.label :age, "Age (years)" %>
+    <%= form.number_field :age, min: 0, class: "form-control", placeholder: "e.g., 3" %>
   </div>
 
-  <div>
-    <%= form.label :race, style: "display: block" %>
-    <%= form.text_field :race %>
+  <div class="form-group">
+    <%= form.label :race, "Breed" %>
+    <%= form.text_field :race, class: "form-control", placeholder: "e.g., Golden Retriever, Siamese..." %>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="form-group" style="margin-top: 1.5rem">
+    <%= form.submit animal.new_record? ? "Add Animal" : "Save Changes", class: "btn-submit" %>
   </div>
 <% end %>

@@ -1,16 +1,29 @@
-<p style="color: green"><%= notice %></p>
-
 <% content_for :title, "Users" %>
 
-<h1>Users</h1>
+<div class="page-header">
+  <h1><i class="fas fa-users"></i> Members</h1>
+  <p class="page-subtitle">All registered members of PawAdopt</p>
+</div>
 
-<div id="users">
+<div class="users-grid">
   <% @users.each do |user| %>
-    <%= render user %>
-    <p>
-      <%= link_to "Show this user", user %>
-    </p>
+    <div class="user-card">
+      <div class="user-card-header">
+        <div class="user-avatar-sm">
+          <i class="fas fa-user"></i>
+        </div>
+        <div>
+          <p class="user-card-name"><%= user.username %></p>
+          <p class="user-card-email"><%= user.email %></p>
+        </div>
+      </div>
+      <% if user.admin? %>
+        <span class="admin-badge"><i class="fas fa-shield-alt"></i> Admin</span>
+      <% end %>
+      <div style="margin-top: 0.75rem;">
+        <%= link_to "View Profile", user, class: "btn-view" %>
+      </div>
+    </div>
   <% end %>
 </div>
 
-<%= link_to "New user", new_user_path %>

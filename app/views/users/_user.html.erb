@@ -1,19 +1,15 @@
 <div id="<%= dom_id user %>">
   <p>
-    <strong>Name:</strong>
-    <%= user.username%>
+    <strong>Username:</strong>
+    <%= user.username %>
   </p>
-
- 
   <p>
-    <strong>Password:</strong>
-    <%= user.password %>
+    <strong>Email:</strong>
+    <%= user.email %>
   </p>
-
+  <% if user.admin? %>
+    <p>
+      <span class="admin-badge"><i class="fas fa-shield-alt"></i> Admin</span>
+    </p>
+  <% end %>
 </div>
-<% if user.admin? %>
-  <p style="color: red">
-    <strong>Admin:</strong>
-    <%= user.admin %>
-  </p>
-<% end %>
